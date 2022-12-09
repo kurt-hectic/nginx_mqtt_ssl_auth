@@ -1,4 +1,4 @@
-# Nginx mqtt https termination test
+# Nginx mqtt ssl termination test
 
 This is a PoC that X.509 certificates can be used to supply authentication information to a non-SSL enabled mosquitto mqtt server which is fronted by a SSL terminating nginx load-balancer.
 The approach used is for the client to supply a username in addition to it's SSL certificate. The nginx uses a njs file (mqtt.js, configured in stream_mqtt_authentication.conf) to check that the username supplied corresponds to the CN of the certificate and ends the connection if there is no match. In this way the mosquitto server can rely on the username being correct and can configure acls based on the username.
