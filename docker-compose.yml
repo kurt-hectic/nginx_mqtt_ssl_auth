@@ -1,0 +1,78 @@
+version: "3"
+networks:
+  wis2.wmo.int:
+
+services:
+    proxy:
+      image: nginx     
+      volumes:
+       - ./nginx.conf:/etc/nginx/nginx.conf
+       - ./stream_conf.d:/etc/nginx/stream_conf.d
+       - ./mqtt.js:/etc/nginx/mqtt.js
+       - ./logs/:/var/log/nginx/
+       - ./ssl/node_ch.crt:/etc/nginx/ssl/node.crt
+       - ./ssl/node_ch.key:/etc/nginx/ssl/node.key
+       - ./ssl/wisca.crt:/etc/nginx/ssl/wisca.crt
+       
+       
+      ports:
+       - 8883:8883
+    
+      networks:
+        wis2.wmo.int:  
+            aliases:
+               - node-ch.wis2.wmo.int
+       
+   
+    mosquitto:
+      image: eclipse-mosquitto:2
+      volumes:
+       - ./mosquitto.conf/:/mosquitto/config/mosquitto.conf
+       - ./acl_file:/etc/mosquitto/acl_file
+       - ./password_file.txt:/etc/mosquitto/password_file.txt
+       
+      #ports:
+      # - 1883:1883
+      # - 9001:9001
+      
+      networks:
+        wis2.wmo.int:    
+
+    python:
+      build: .
+      
+      stdin_open: true # docker run -i
+      tty: true
+      
+      volumes:
+       - ./test_certificates.py:/usr/src/app/test_certificates.py     
+       - ./ssl/gb_fr_fake.crt:/usr/src/app/gb_fr_fake.crt
+       - ./ssl/gb_fr.crt:/usr/src/app/gb_fr.crt
+       - ./ssl/gb_fr.key:/usr/src/app/gb_fr.key
+       - ./ssl/gb_ma.crt:/usr/src/app/gb_ma.crt
+       - ./ssl/gb_ma.key:/usr/src/app/gb_ma.key
+       - ./ssl/wisca.crt:/usr/src/app/wisca.crt
+       
+      command: bash -c "sleep 10; pytest"
+      
+      
+      networks:
+        wis2.wmo.int:  
+        
+        
+    python-publisher:
+      build: .
+      
+      stdin_open: true # docker run -i
+      tty: true
+      
+      volumes:
+       - ./keep_publishing.py:/usr/src/app/keep_publishing.py
+       - ./ssl/node_ch.crt:/usr/src/app/node_ch.crt
+       - ./ssl/node_ch.key:/usr/src/app/node_ch.key
+       - ./ssl/wisca.crt:/usr/src/app/wisca.crt       
+             
+      command: bash -c "python keep_publishing.py"
+      
+      networks:
+        wis2.wmo.int:    
