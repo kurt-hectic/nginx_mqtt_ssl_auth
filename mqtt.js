@@ -14,7 +14,9 @@ function parseCSKVpairs(cskvpairs, key) {
     return ""; // Default condition
 }
 
-
+// PoC function to verify if mqtt username corresponds to the subject name of the supplied SSL certificate
+// For production grade a more robust header parsing (remaining length, handling of password header and mqtt control codes without header)
+// would have to be implemented. 
 function preread_verify(s) {
     var collect = '';
 
