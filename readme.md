@@ -1,7 +1,7 @@
 # Nginx mqtt ssl termination test
 
 This is a PoC that X.509 certificates can be used to supply authentication information to a non-SSL enabled mosquitto mqtt server which is fronted by a SSL terminating nginx load-balancer.
-The approach used is for the client to supply a username in addition to it's SSL certificate. The nginx uses a njs file (mqtt.js, configured in stream_mqtt_authentication.conf) to check that the username supplied corresponds to the CN of the certificate and ends the connection if there is no match. In this way the mosquitto server can rely on the username being correct and can configure acls based on the username.
+The approach used is for the client to supply a username in addition to it's SSL certificate. The nginx uses a [njs](https://nginx.org/en/docs/njs/) file ([mqtt.js](https://github.com/kurt-hectic/nginx_mqtt_ssl_auth/blob/main/mqtt.js), configured in [stream_mqtt_authentication.conf](https://github.com/kurt-hectic/nginx_mqtt_ssl_auth/blob/main/stream_conf.d/stream_mqtt_authentication.conf)) to check that the username supplied corresponds to the CN of the certificate and ends the connection if there is no match. In this way the mosquitto server can rely on the username being correct and can configure acls based on the username.
 
 To run, checkout the repository, change into the directory and type ```docker-compose up --abort-on-container-exit```. Tests defined in test_certificates.py will automatically be run. The testing is implemented using pytest and leaverages a background container which continously posts messages. The tests consist in checking if messages can be received with the supplied credentials.
 
