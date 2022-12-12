@@ -7,7 +7,7 @@ import paho.mqtt.client as mqtt
 
 data_received = False
 
-def setup_mqtt_client(certfile,keyfile,username,pw="wis"):
+def setup_mqtt_client(certfile,keyfile,username):
 
     client = mqtt.Client()
     client.tls_set(certfile=certfile,
@@ -16,7 +16,7 @@ def setup_mqtt_client(certfile,keyfile,username,pw="wis"):
                cert_reqs=ssl.CERT_REQUIRED,
                tls_version=ssl.PROTOCOL_TLS_CLIENT)
     client.on_message = on_message
-    client.username_pw_set(username, pw)
+    client.username_pw_set(username) # password not required
     client.connect("node-ch.wis2.wmo.int", 8883)
     client.subscribe("test", qos=1)
     

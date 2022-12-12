@@ -14,7 +14,7 @@ client.tls_set(certfile="./node_ch.crt",
                ca_certs="./wisca.crt",
                cert_reqs=ssl.CERT_REQUIRED)
                
-client.username_pw_set("node-ch.wis2.wmo.int","wis")
+client.username_pw_set("node-ch.wis2.wmo.int")
 
 client.connect(mqttBroker,8883) 
 

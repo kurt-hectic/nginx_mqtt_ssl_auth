@@ -9,7 +9,7 @@ services:
        - ./nginx.conf:/etc/nginx/nginx.conf
        - ./stream_conf.d:/etc/nginx/stream_conf.d
        - ./mqtt.js:/etc/nginx/mqtt.js
-       - ./logs/:/var/log/nginx/
+       #- ./logs/:/var/log/nginx/
        - ./ssl/node_ch.crt:/etc/nginx/ssl/node.crt
        - ./ssl/node_ch.key:/etc/nginx/ssl/node.key
        - ./ssl/wisca.crt:/etc/nginx/ssl/wisca.crt
@@ -29,7 +29,6 @@ services:
       volumes:
        - ./mosquitto.conf/:/mosquitto/config/mosquitto.conf
        - ./acl_file:/etc/mosquitto/acl_file
-       - ./password_file.txt:/etc/mosquitto/password_file.txt
        
       #ports:
       # - 1883:1883
