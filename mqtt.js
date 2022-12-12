@@ -14,18 +14,6 @@ function parseCSKVpairs(cskvpairs, key) {
     return ""; // Default condition
 }
 
-function byteArrayToHexString(byteArray) {
-    var hexString = '';
-    var nextHexByte;
-    for (var i=0; i<byteArray.byteLength; i++) {
-        nextHexByte = byteArray[i].toString(16);    // Integer to base 16
-        if (nextHexByte.length < 2) {
-            nextHexByte = "0" + nextHexByte;        // Otherwise 10 becomes just a instead of 0a
-        }//  w w w.java  2 s  . c  om
-        hexString += nextHexByte;
-    }
-    return hexString;
-}
 
 function preread_verify(s) {
     var collect = '';
